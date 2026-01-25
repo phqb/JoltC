@@ -2067,6 +2067,13 @@ JPC_API bool JPC_MutableCompoundShapeSettings_Create(const JPC_MutableCompoundSh
 ////////////////////////////////////////////////////////////////////////////////
 // BodyCreationSettings
 
+JPC_API void JPC_MassProperties_default(JPC_MassProperties* properties) {
+	JPH::MassProperties defaultSettings{};
+
+	properties->Mass = defaultSettings.mMass;
+	properties->Inertia = to_jpc(defaultSettings.mInertia);
+}
+
 static JPH::BodyCreationSettings to_jph(const JPC_BodyCreationSettings* settings) {
 	JPH::BodyCreationSettings output{};
 
