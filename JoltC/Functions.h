@@ -1254,8 +1254,8 @@ JPC_API bool JPC_MutableCompoundShapeSettings_Create(const JPC_MutableCompoundSh
 // BodyCreationSettings
 
 typedef struct JPC_MassProperties {
-	float Mass = 0.0f;
-	JPC_Mat44 Inertia = {};
+	float Mass;
+	JPC_Mat44 Inertia;
 } JPC_MassProperties;
 
 typedef struct JPC_BodyCreationSettings {

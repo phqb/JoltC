@@ -2136,7 +2136,8 @@ JPC_API void JPC_BodyCreationSettings_default(JPC_BodyCreationSettings* settings
 	settings->NumPositionStepsOverride = defaultSettings.mNumPositionStepsOverride;
 	settings->OverrideMassProperties = to_jpc(defaultSettings.mOverrideMassProperties);
 	settings->InertiaMultiplier = defaultSettings.mInertiaMultiplier;
-	// MassPropertiesOverride
+	settings->MassPropertiesOverride.Mass = defaultSettings.mMassPropertiesOverride.mMass;
+	settings->MassPropertiesOverride.Inertia = to_jpc(defaultSettings.mMassPropertiesOverride.mInertia);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
