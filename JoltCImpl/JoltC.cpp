@@ -2098,7 +2098,8 @@ static JPH::BodyCreationSettings to_jph(const JPC_BodyCreationSettings* settings
 	output.mNumPositionStepsOverride = settings->NumPositionStepsOverride;
 	output.mOverrideMassProperties = to_jph(settings->OverrideMassProperties);
 	output.mInertiaMultiplier = settings->InertiaMultiplier;
-	// output.mMassPropertiesOverride = settings->MassPropertiesOverride;
+	output.mMassPropertiesOverride.mMass = settings->MassPropertiesOverride.Mass;
+	output.mMassPropertiesOverride.mInertia = to_jph(settings->MassPropertiesOverride.Inertia);
 	output.SetShape(to_jph(settings->Shape));
 
 	return output;

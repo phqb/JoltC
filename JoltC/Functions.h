@@ -1253,6 +1253,11 @@ JPC_API bool JPC_MutableCompoundShapeSettings_Create(const JPC_MutableCompoundSh
 ////////////////////////////////////////////////////////////////////////////////
 // BodyCreationSettings
 
+typedef struct JPC_MassProperties {
+	float Mass = 0.0f;
+	JPC_Mat44 Inertia = {};
+} JPC_MassProperties;
+
 typedef struct JPC_BodyCreationSettings {
 	JPC_RVec3 Position;
 	JPC_Quat Rotation;
@@ -1282,8 +1287,7 @@ typedef struct JPC_BodyCreationSettings {
 	uint NumPositionStepsOverride;
 	JPC_OverrideMassProperties OverrideMassProperties;
 	float InertiaMultiplier;
-
-	// MassProperties MassPropertiesOverride;
+	JPC_MassProperties MassPropertiesOverride;
 
 	const JPC_Shape* Shape;
 } JPC_BodyCreationSettings;
