@@ -1258,6 +1258,8 @@ typedef struct JPC_MassProperties {
 	JPC_Mat44 Inertia;
 } JPC_MassProperties;
 
+JPC_API void JPC_MassProperties_default(JPC_MassProperties* properties);
+
 typedef struct JPC_BodyCreationSettings {
 	JPC_RVec3 Position;
 	JPC_Quat Rotation;
