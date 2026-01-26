@@ -200,6 +200,8 @@ typedef struct JPC_CollideShapeResult {
 
 typedef struct JPC_Body JPC_Body;
 
+JPC_API JPC_Body* JPC_Body_FixedToWorld();
+
 ////////////////////////////////////////////////////////////////////////////////
 // VertexList == Array<Float3> == std::vector<Float3>
 

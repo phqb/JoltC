@@ -344,6 +344,10 @@ JPC_API void JPC_UnregisterTypes() {
 	JPH::UnregisterTypes();
 }
 
+JPC_API JPC_Body* JPC_Body_FixedToWorld() {
+	return to_jpc(&JPH::Body::sFixedToWorld);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // VertexList == Array<Float3> == std::vector<Float3>
 
