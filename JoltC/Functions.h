@@ -202,6 +202,10 @@ typedef struct JPC_Body JPC_Body;
 
 JPC_API JPC_Body* JPC_Body_FixedToWorld();
 
+typedef struct JPC_Plane {
+	JPC_Vec4 NormalAndConstant;
+} JPC_Plane;
+
 ////////////////////////////////////////////////////////////////////////////////
 // VertexList == Array<Float3> == std::vector<Float3>
 
@@ -1655,6 +1659,13 @@ JPC_API void JPC_PhysicsSystem_SetContactListener(JPC_PhysicsSystem* self, JPC_C
 // CharacterVirtualSettings
 
 typedef struct JPC_CharacterVirtualSettings {
+	// extended from JPH::CharacterBaseSettings
+	JPC_Vec3 Up;
+	JPC_Plane SupportingVolume;
+	float MaxSlopeAngle;
+	bool EnhancedInternalEdgeRemoval;
+	const JPC_Shape* Shape;
+
 	// CharacterID mID will be initialized by JPH::CharactorVirtualSettings default constructor
 	float Mass;
 	float MaxStrength;

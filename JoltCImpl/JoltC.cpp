@@ -411,6 +411,23 @@ JPC_API JPC_Body* JPC_Body_FixedToWorld() {
 	return to_jpc(&JPH::Body::sFixedToWorld);
 }
 
+static JPH::Plane to_jph(JPC_Plane in) {
+	return JPH::Plane(to_jph(in.NormalAndConstant));
+}
+
+static JPC_Plane to_jpc(JPH::Plane in) {
+	JPH::Vec3 normal = in.GetNormal();
+	JPC_Vec4 normalAndConstant;
+	normalAndConstant.x = normal.GetX();
+	normalAndConstant.y = normal.GetY();
+	normalAndConstant.z = normal.GetZ();
+	normalAndConstant.w = in.GetConstant();
+
+	JPC_Plane out;
+	out.NormalAndConstant = normalAndConstant;
+	return out;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // VertexList == Array<Float3> == std::vector<Float3>
 
@@ -3165,6 +3182,12 @@ JPC_API void JPC_PhysicsSystem_SetContactListener(
 JPC_API void JPC_CharacterVirtualSettings_default(JPC_CharacterVirtualSettings* settings) {
 	JPH::CharacterVirtualSettings defaultSettings{};
 
+	settings->Up = to_jpc(defaultSettings.mUp);
+	settings->SupportingVolume = to_jpc(defaultSettings.mSupportingVolume);
+	settings->MaxSlopeAngle = defaultSettings.mMaxSlopeAngle;
+	settings->EnhancedInternalEdgeRemoval = defaultSettings.mEnhancedInternalEdgeRemoval;
+	settings->Shape = to_jpc(defaultSettings.mShape);
+
 	settings->Mass = defaultSettings.mMass;
 	settings->MaxStrength = defaultSettings.mMaxStrength;
 	settings->ShapeOffset = to_jpc(defaultSettings.mShapeOffset);
@@ -3185,6 +3208,12 @@ JPC_API void JPC_CharacterVirtualSettings_default(JPC_CharacterVirtualSettings* 
 
 static JPH::CharacterVirtualSettings to_jph(const JPC_CharacterVirtualSettings* settings) {
 	JPH::CharacterVirtualSettings output{};
+
+	output.mUp = to_jph(settings->Up);
+	output.mSupportingVolume = to_jph(settings->SupportingVolume);
+	output.mMaxSlopeAngle = settings->MaxSlopeAngle;
+	output.mEnhancedInternalEdgeRemoval = settings->EnhancedInternalEdgeRemoval;
+	output.mShape = to_jph(settings->Shape);
 
 	output.mMass = settings->Mass;
 	output.mMaxStrength = settings->MaxStrength;
