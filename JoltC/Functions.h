@@ -1651,6 +1651,141 @@ JPC_API void JPC_PhysicsSystem_SetSimShapeFilter(JPC_PhysicsSystem* self, const 
 
 JPC_API void JPC_PhysicsSystem_SetContactListener(JPC_PhysicsSystem* self, JPC_ContactListener* inContactListener);
 
+////////////////////////////////////////////////////////////////////////////////
+// CharacterVirtualSettings
+
+typedef struct JPC_CharacterVirtualSettings {
+	// CharacterID mID will be initialized by JPH::CharactorVirtualSettings default constructor
+	float Mass;
+	float MaxStrength;
+	JPC_Vec3 ShapeOffset;
+	JPC_BackFaceMode BackFaceMode;
+	float PredictiveContactDistance;
+	uint MaxCollisionIterations;
+	uint MaxConstraintIterations;
+	float MinTimeRemaining;
+	float CollisionTolerance;
+	float CharacterPadding;
+	uint MaxNumHits;
+	float HitReductionCosMaxAngle;
+	float PenetrationRecoverySpeed;
+	const JPC_Shape* InnerBodyShape;	
+	JPC_BodyID InnerBodyIDOverride;
+	JPC_ObjectLayer InnerBodyLayer;
+} JPC_CharacterVirtualSettings;
+
+JPC_API void JPC_CharacterVirtualSettings_default(JPC_CharacterVirtualSettings* settings);
+
+////////////////////////////////////////////////////////////////////////////////
+// CharacterVirtual
+
+typedef struct JPC_CharacterVirtual JPC_CharacterVirtual;
+typedef struct JPC_CharacterVsCharacterCollisionSimple JPC_CharacterVsCharacterCollisionSimple;
+
+JPC_API JPC_CharacterVirtual* JPC_CharacterVirtual_new(const JPC_CharacterVirtualSettings* settings, JPC_RVec3 position, JPC_Quat rotation, JPC_PhysicsSystem* system);
+JPC_API void JPC_CharacterVirtual_delete(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetCharacterVsCharacterCollision(JPC_CharacterVirtual* self, JPC_CharacterVsCharacterCollisionSimple* collision);
+
+JPC_API JPC_Vec3 JPC_CharacterVirtual_GetLinearVelocity(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetLinearVelocity(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity);
+
+JPC_API JPC_RVec3 JPC_CharacterVirtual_GetPosition(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetPosition(JPC_CharacterVirtual* self, JPC_RVec3 position);
+
+JPC_API JPC_Quat JPC_CharacterVirtual_GetRotation(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetRotation(JPC_CharacterVirtual* self, JPC_Quat rotation);
+
+JPC_API JPC_RVec3 JPC_CharacterVirtual_GetCenterOfMassPosition(JPC_CharacterVirtual* self);
+
+JPC_API JPC_RMat44 JPC_CharacterVirtual_GetWorldTransform(JPC_CharacterVirtual* self);
+
+JPC_API JPC_RMat44 JPC_CharacterVirtual_GetCenterOfMassTransform(JPC_CharacterVirtual* self);
+
+JPC_API float JPC_CharacterVirtual_GetMass(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetMass(JPC_CharacterVirtual* self, float mass);
+
+JPC_API float JPC_CharacterVirtual_GetMaxStrength(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetMaxStrength(JPC_CharacterVirtual* self, float maxStrength);
+
+JPC_API float JPC_CharacterVirtual_GetPenetrationRecoverySpeed(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetPenetrationRecoverySpeed(JPC_CharacterVirtual* self, float speed);
+
+JPC_API float JPC_CharacterVirtual_GetEnhancedInternalEdgeRemoval(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetEnhancedInternalEdgeRemoval(JPC_CharacterVirtual* self, float apply);
+
+JPC_API float JPC_CharacterVirtual_GetCharacterPadding(JPC_CharacterVirtual* self);
+
+JPC_API uint JPC_CharacterVirtual_GetMaxNumHits(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetMaxNumHits(JPC_CharacterVirtual* self, uint maxHits);
+
+JPC_API uint JPC_CharacterVirtual_GetHitReductionCosMaxAngle(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetHitReductionCosMaxAngle(JPC_CharacterVirtual* self, float cosMaxAngle);
+
+JPC_API bool JPC_CharacterVirtual_GetMaxHitsExceeded(JPC_CharacterVirtual* self);
+
+JPC_API JPC_Vec3 JPC_CharacterVirtual_GetShapeOffset(JPC_CharacterVirtual* self);
+JPC_API void JPC_CharacterVirtual_SetShapeOffset(JPC_CharacterVirtual* self, JPC_Vec3 shapeOffset);
+
+JPC_API JPC_BodyID JPC_CharacterVirtual_GetInnerBodyID(JPC_CharacterVirtual* self);
+
+JPC_API JPC_Vec3 JPC_CharacterVirtual_CancelVelocityTowardsSteepSlopes(JPC_CharacterVirtual* self, JPC_Vec3 desiredVelocity);
+
+JPC_API void JPC_CharacterVirtual_Update(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
+
+JPC_API bool JPC_CharacterVirtual_CanWalkStairs(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity);
+
+JPC_API bool JPC_CharacterVirtual_WalkStairs(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 stepUp, JPC_Vec3 stepForward, JPC_Vec3 stepForwardTest, JPC_Vec3 stepDownExtra, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
+
+JPC_API bool JPC_CharacterVirtual_StickToFloor(JPC_CharacterVirtual* self, JPC_Vec3 stepDown, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
+
+JPC_API void JPC_CharacterVirtual_RefreshContacts(JPC_CharacterVirtual* self, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
+
+JPC_API void JPC_CharacterVirtual_UpdateGroundVelocity(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetShape(JPC_CharacterVirtual* self, const JPC_Shape* shape, float maxPenetrationDepth, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
+
+JPC_API void JPC_CharacterVirtual_SetInnerBodyShape(JPC_CharacterVirtual* self, const JPC_Shape* shape);
+
+JPC_API void JPC_CharacterVirtual_CheckCollision(JPC_CharacterVirtual* self, JPC_RVec3 position, JPC_Quat rotation, JPC_Vec3 movementDirection, float maxSeparationDistance, const JPC_Shape* shape, JPC_RVec3 baseOffset, JPC_CollideShapeCollector *collector, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter);
+
+// CharacterVirtual exntends CharacterBase
+
+JPC_API void JPC_CharacterVirtual_SetMaxSlopeAngle(JPC_CharacterVirtual* self, float maxSlopeAngle);
+JPC_API float JPC_CharacterVirtual_GetCosMaxSlopeAngle(JPC_CharacterVirtual* self);
+
+JPC_API void JPC_CharacterVirtual_SetUp(JPC_CharacterVirtual* self, JPC_Vec3 up);
+JPC_API JPC_Vec3 JPC_CharacterVirtual_GetUp(JPC_CharacterVirtual* self);
+
+JPC_API bool JPC_CharacterVirtual_IsSlopeTooDeep(JPC_CharacterVirtual* self, JPC_Vec3 normal);
+
+JPC_API JPC_GroundState JPC_CharacterVirtual_GetGroundState(JPC_CharacterVirtual* self);
+
+JPC_API bool JPC_CharacterVirtual_IsSupported(JPC_CharacterVirtual* self);
+
+JPC_API JPC_RVec3 JPC_CharacterVirtual_GetGroundPosition(JPC_CharacterVirtual* self);
+
+JPC_API JPC_Vec3 JPC_CharacterVirtual_GetGroundNormal(JPC_CharacterVirtual* self);
+
+JPC_API JPC_Vec3 JPC_CharacterVirtual_GetGroundVelocity(JPC_CharacterVirtual* self);
+
+JPC_API JPC_BodyID JPC_CharacterVirtual_GetGroundBodyID(JPC_CharacterVirtual* self);
+
+JPC_API JPC_SubShapeID JPC_CharacterVirtual_GetGroundSubShapeID(JPC_CharacterVirtual* self);
+
+////////////////////////////////////////////////////////////////////////////////
+// CharacterVsCharacterCollisionSimple
+
+typedef struct JPC_CharacterVsCharacterCollisionSimple JPC_CharacterVsCharacterCollisionSimple;
+
+JPC_API JPC_CharacterVsCharacterCollisionSimple* JPC_CharacterVsCharacterCollisionSimple_new();
+JPC_API void JPC_CharacterVsCharacterCollisionSimple_delete(JPC_CharacterVsCharacterCollisionSimple* self);
+
+JPC_API void JPC_CharacterVsCharacterCollisionSimple_Add(JPC_CharacterVsCharacterCollisionSimple* self, JPC_CharacterVirtual* character);
+
 #ifdef __cplusplus
 }
 #endif

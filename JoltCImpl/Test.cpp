@@ -16,6 +16,7 @@
 #include <Jolt/Physics/Body/BodyActivationListener.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Body/BodyManager.h>
+#include <Jolt/Physics/Character/CharacterVirtual.h>
 #include <Jolt/Physics/Collision/ActiveEdgeMode.h>
 #include <Jolt/Physics/Collision/CollectFacesMode.h>
 #include <Jolt/Physics/Collision/CollideShape.h>
