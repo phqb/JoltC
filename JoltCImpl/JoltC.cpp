@@ -3359,6 +3359,12 @@ JPC_API void JPC_CharacterVirtual_Update(JPC_CharacterVirtual* self, float delta
 	to_jph(self)->Update(deltaTime, to_jph(gravity), *to_jph(broadPhaseLayerFilter), *to_jph(objectLayerFilter), *to_jph(bodyFilter), *to_jph(shapeFilter), *to_jph(allocator));
 }
 
+JPC_API void JPC_CharacterVirtual_UpdateWithDefaultFilters(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, JPC_PhysicsSystem* system, JPC_ObjectLayer layer, JPC_TempAllocatorImpl* allocator) {
+	JPH::PhysicsSystem* sys = to_jph(system);
+	JPH::ObjectLayer l(layer);
+	to_jph(self)->Update(deltaTime, to_jph(gravity), sys->GetDefaultBroadPhaseLayerFilter(l), sys->GetDefaultLayerFilter(l), {}, {}, *to_jph(allocator));
+}
+
 JPC_API bool JPC_CharacterVirtual_CanWalkStairs(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity) {
 	return to_jph(self)->CanWalkStairs(to_jph(linearVelocity));
 }

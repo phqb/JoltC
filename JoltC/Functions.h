@@ -1747,6 +1747,8 @@ JPC_API JPC_Vec3 JPC_CharacterVirtual_CancelVelocityTowardsSteepSlopes(JPC_Chara
 
 JPC_API void JPC_CharacterVirtual_Update(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
 
+JPC_API void JPC_CharacterVirtual_UpdateWithDefaultFilters(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, JPC_PhysicsSystem* system, JPC_ObjectLayer layer, JPC_TempAllocatorImpl* allocator);
+
 JPC_API bool JPC_CharacterVirtual_CanWalkStairs(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity);
 
 JPC_API bool JPC_CharacterVirtual_WalkStairs(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 stepUp, JPC_Vec3 stepForward, JPC_Vec3 stepForwardTest, JPC_Vec3 stepDownExtra, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
