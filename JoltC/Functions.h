@@ -1688,6 +1688,20 @@ typedef struct JPC_CharacterVirtualSettings {
 JPC_API void JPC_CharacterVirtualSettings_default(JPC_CharacterVirtualSettings* settings);
 
 ////////////////////////////////////////////////////////////////////////////////
+// CharacterVirtual::ExtendedUpdateSettings
+
+typedef struct JPC_CharacterVirtualExtendedUpdateSettings {
+	JPC_Vec3 StickToFloorStepDown;
+	JPC_Vec3 WalkStairsStepUp;
+	float WalkStairsMinStepForward;
+	float WalkStairsStepForwardTest;
+	float WalkStairsCosAngleForwardContact;
+	JPC_Vec3 WalkStairsStepDownExtra;
+} JPC_CharacterVirtualExtendedUpdateSettings;
+
+JPC_API void JPC_CharacterVirtualExtendedUpdateSettings_default(JPC_CharacterVirtualExtendedUpdateSettings* settings);
+
+////////////////////////////////////////////////////////////////////////////////
 // CharacterVirtual
 
 typedef struct JPC_CharacterVirtual JPC_CharacterVirtual;
@@ -1748,6 +1762,8 @@ JPC_API JPC_Vec3 JPC_CharacterVirtual_CancelVelocityTowardsSteepSlopes(JPC_Chara
 JPC_API void JPC_CharacterVirtual_Update(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, const JPC_BroadPhaseLayerFilter* broadPhaseLayerFilter, const JPC_ObjectLayerFilter* objectLayerFilter, const JPC_BodyFilter* bodyFilter, const JPC_ShapeFilter* shapeFilter, JPC_TempAllocatorImpl* allocator);
 
 JPC_API void JPC_CharacterVirtual_UpdateWithDefaultFilters(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, JPC_PhysicsSystem* system, JPC_ObjectLayer layer, JPC_TempAllocatorImpl* allocator);
+
+JPC_API void JPC_CharacterVirtual_ExtendedUpdateWithDefaultFilters(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, const JPC_CharacterVirtualExtendedUpdateSettings* settings, JPC_PhysicsSystem* system, JPC_ObjectLayer layer, JPC_TempAllocatorImpl* allocator);
 
 JPC_API bool JPC_CharacterVirtual_CanWalkStairs(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity);
 
