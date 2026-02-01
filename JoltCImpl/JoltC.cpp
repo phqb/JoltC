@@ -3206,33 +3206,29 @@ JPC_API void JPC_CharacterVirtualSettings_default(JPC_CharacterVirtualSettings* 
 	settings->InnerBodyLayer = defaultSettings.mInnerBodyLayer;
 }
 
-static JPH::CharacterVirtualSettings to_jph(const JPC_CharacterVirtualSettings* settings) {
-	JPH::CharacterVirtualSettings output{};
+static void to_jph(const JPC_CharacterVirtualSettings* settings, JPH::CharacterVirtualSettings *output) {
+	output->mUp = to_jph(settings->Up);
+	output->mSupportingVolume = to_jph(settings->SupportingVolume);
+	output->mMaxSlopeAngle = settings->MaxSlopeAngle;
+	output->mEnhancedInternalEdgeRemoval = settings->EnhancedInternalEdgeRemoval;
+	output->mShape = to_jph(settings->Shape);
 
-	output.mUp = to_jph(settings->Up);
-	output.mSupportingVolume = to_jph(settings->SupportingVolume);
-	output.mMaxSlopeAngle = settings->MaxSlopeAngle;
-	output.mEnhancedInternalEdgeRemoval = settings->EnhancedInternalEdgeRemoval;
-	output.mShape = to_jph(settings->Shape);
-
-	output.mMass = settings->Mass;
-	output.mMaxStrength = settings->MaxStrength;
-	output.mShapeOffset = to_jph(settings->ShapeOffset);
-	output.mBackFaceMode = BackFaceMode_to_jph(settings->BackFaceMode);
-	output.mPredictiveContactDistance = settings->PredictiveContactDistance;
-	output.mMaxCollisionIterations = settings->MaxCollisionIterations;
-	output.mMaxConstraintIterations = settings->MaxConstraintIterations;
-	output.mMinTimeRemaining = settings->MinTimeRemaining;
-	output.mCollisionTolerance = settings->CollisionTolerance;
-	output.mCharacterPadding = settings->CharacterPadding;
-	output.mMaxNumHits = settings->MaxNumHits;
-	output.mHitReductionCosMaxAngle = settings->HitReductionCosMaxAngle;
-	output.mPenetrationRecoverySpeed = settings->PenetrationRecoverySpeed;
-	output.mInnerBodyShape = to_jph(settings->InnerBodyShape);
-	output.mInnerBodyIDOverride = to_jph(settings->InnerBodyIDOverride);
-	output.mInnerBodyLayer = settings->InnerBodyLayer;
-
-	return output;
+	output->mMass = settings->Mass;
+	output->mMaxStrength = settings->MaxStrength;
+	output->mShapeOffset = to_jph(settings->ShapeOffset);
+	output->mBackFaceMode = BackFaceMode_to_jph(settings->BackFaceMode);
+	output->mPredictiveContactDistance = settings->PredictiveContactDistance;
+	output->mMaxCollisionIterations = settings->MaxCollisionIterations;
+	output->mMaxConstraintIterations = settings->MaxConstraintIterations;
+	output->mMinTimeRemaining = settings->MinTimeRemaining;
+	output->mCollisionTolerance = settings->CollisionTolerance;
+	output->mCharacterPadding = settings->CharacterPadding;
+	output->mMaxNumHits = settings->MaxNumHits;
+	output->mHitReductionCosMaxAngle = settings->HitReductionCosMaxAngle;
+	output->mPenetrationRecoverySpeed = settings->PenetrationRecoverySpeed;
+	output->mInnerBodyShape = to_jph(settings->InnerBodyShape);
+	output->mInnerBodyIDOverride = to_jph(settings->InnerBodyIDOverride);
+	output->mInnerBodyLayer = settings->InnerBodyLayer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3265,8 +3261,9 @@ JPC_API void JPC_CharacterVirtualExtendedUpdateSettings_default(JPC_CharacterVir
 // CharacterVirtual
 
 JPC_API JPC_CharacterVirtual* JPC_CharacterVirtual_new(const JPC_CharacterVirtualSettings* settings, JPC_RVec3 position, JPC_Quat rotation, JPC_PhysicsSystem* system) {
-	JPH::CharacterVirtualSettings inSettings = to_jph(settings);
-	return to_jpc(new JPH::CharacterVirtual(&inSettings, to_jph(position), to_jph(rotation), to_jph(system)));
+	JPH::CharacterVirtualSettings _settings{};
+	to_jph(settings, &_settings);
+	return to_jpc(new JPH::CharacterVirtual(&_settings, to_jph(position), to_jph(rotation), to_jph(system)));
 }
 
 JPC_API void JPC_CharacterVirtual_SetCharacterVsCharacterCollision(JPC_CharacterVirtual* self, JPC_CharacterVsCharacterCollisionSimple* collision) {
