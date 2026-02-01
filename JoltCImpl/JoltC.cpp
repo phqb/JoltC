@@ -3238,35 +3238,27 @@ static JPH::CharacterVirtualSettings to_jph(const JPC_CharacterVirtualSettings* 
 ////////////////////////////////////////////////////////////////////////////////
 // CharacterVirtual::ExtendedUpdateSettings
 
-static JPH::CharacterVirtual::ExtendedUpdateSettings to_jph(const JPC_CharacterVirtualExtendedUpdateSettings* in) {
-	JPH::CharacterVirtual::ExtendedUpdateSettings out{};
-
-	out.mStickToFloorStepDown = to_jph(in->StickToFloorStepDown);
-	out.mWalkStairsStepUp = to_jph(in->WalkStairsStepUp);
-	out.mWalkStairsMinStepForward = in->WalkStairsMinStepForward;
-	out.mWalkStairsStepForwardTest = in->WalkStairsStepForwardTest;
-	out.mWalkStairsCosAngleForwardContact = in->WalkStairsCosAngleForwardContact;
-	out.mWalkStairsStepDownExtra = to_jph(in->WalkStairsStepDownExtra);
-
-	return out;
+static void to_jph(const JPC_CharacterVirtualExtendedUpdateSettings* in, JPH::CharacterVirtual::ExtendedUpdateSettings* out) {
+	out->mStickToFloorStepDown = to_jph(in->StickToFloorStepDown);
+	out->mWalkStairsStepUp = to_jph(in->WalkStairsStepUp);
+	out->mWalkStairsMinStepForward = in->WalkStairsMinStepForward;
+	out->mWalkStairsStepForwardTest = in->WalkStairsStepForwardTest;
+	out->mWalkStairsCosAngleForwardContact = in->WalkStairsCosAngleForwardContact;
+	out->mWalkStairsStepDownExtra = to_jph(in->WalkStairsStepDownExtra);
 }
 
-static JPC_CharacterVirtualExtendedUpdateSettings to_jpc(const JPH::CharacterVirtual::ExtendedUpdateSettings* in) {
-	JPC_CharacterVirtualExtendedUpdateSettings out;
-
-	out.StickToFloorStepDown = to_jpc(in->mStickToFloorStepDown);
-	out.WalkStairsStepUp = to_jpc(in->mWalkStairsStepUp);
-	out.WalkStairsMinStepForward = in->mWalkStairsMinStepForward;
-	out.WalkStairsStepForwardTest = in->mWalkStairsStepForwardTest;
-	out.WalkStairsCosAngleForwardContact = in->mWalkStairsCosAngleForwardContact;
-	out.WalkStairsStepDownExtra = to_jpc(in->mWalkStairsStepDownExtra);
-
-	return out;
+static void to_jpc(const JPH::CharacterVirtual::ExtendedUpdateSettings* in, JPC_CharacterVirtualExtendedUpdateSettings* out) {
+	out->StickToFloorStepDown = to_jpc(in->mStickToFloorStepDown);
+	out->WalkStairsStepUp = to_jpc(in->mWalkStairsStepUp);
+	out->WalkStairsMinStepForward = in->mWalkStairsMinStepForward;
+	out->WalkStairsStepForwardTest = in->mWalkStairsStepForwardTest;
+	out->WalkStairsCosAngleForwardContact = in->mWalkStairsCosAngleForwardContact;
+	out->WalkStairsStepDownExtra = to_jpc(in->mWalkStairsStepDownExtra);
 }
 
 JPC_API void JPC_CharacterVirtualExtendedUpdateSettings_default(JPC_CharacterVirtualExtendedUpdateSettings* settings) {
 	JPH::CharacterVirtual::ExtendedUpdateSettings defaultSettings{};
-	*settings = to_jpc(&defaultSettings);
+	to_jpc(&defaultSettings, settings);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3400,9 +3392,11 @@ JPC_API void JPC_CharacterVirtual_UpdateWithDefaultFilters(JPC_CharacterVirtual*
 }
 
 JPC_API void JPC_CharacterVirtual_ExtendedUpdateWithDefaultFilters(JPC_CharacterVirtual* self, float deltaTime, JPC_Vec3 gravity, const JPC_CharacterVirtualExtendedUpdateSettings* settings, JPC_PhysicsSystem* system, JPC_ObjectLayer layer, JPC_TempAllocatorImpl* allocator) {
-	JPH::PhysicsSystem* sys = to_jph(system);
-	JPH::ObjectLayer l(layer);
-	to_jph(self)->ExtendedUpdate(deltaTime, to_jph(gravity), to_jph(settings), sys->GetDefaultBroadPhaseLayerFilter(l), sys->GetDefaultLayerFilter(l), {}, {}, *to_jph(allocator));
+	JPH::PhysicsSystem* _system = to_jph(system);
+	JPH::ObjectLayer _layer(layer);
+	JPH::CharacterVirtual::ExtendedUpdateSettings _settings{};
+	to_jph(settings, &_settings);
+	to_jph(self)->ExtendedUpdate(deltaTime, to_jph(gravity), _settings, _system->GetDefaultBroadPhaseLayerFilter(_layer), _system->GetDefaultLayerFilter(_layer), {}, {}, *to_jph(allocator));
 }
 
 JPC_API bool JPC_CharacterVirtual_CanWalkStairs(JPC_CharacterVirtual* self, JPC_Vec3 linearVelocity) {
