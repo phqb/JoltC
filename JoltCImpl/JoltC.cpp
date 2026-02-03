@@ -1761,6 +1761,8 @@ static void to_jph(const JPC_RotatedTranslatedShapeSettings* in, JPH::RotatedTra
 	out->mInnerShapePtr = to_jph(in->InnerShapePtr);
 }
 
+static bool HandleShapeResult(JPH::ShapeSettings::ShapeResult res, JPC_Shape** outShape, JPC_String** outError);
+
 JPC_API bool JPC_RotatedTranslatedShapeSettings_Create(const JPC_RotatedTranslatedShapeSettings* self, JPC_Shape** outShape, JPC_String** outError) {
 	JPH::RotatedTranslatedShapeSettings settings;
 	to_jph(self, &settings);
