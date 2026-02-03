@@ -245,6 +245,8 @@ JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self);
 ////////////////////////////////////////////////////////////////////////////////
 // RotatedTranslatedShapeSettings
 
+typedef struct JPC_String JPC_String; // forward declaration
+
 typedef struct JPC_RotatedTranslatedShapeSettings {
 	JPC_Vec3 Position;
 	JPC_Quat Rotation;
