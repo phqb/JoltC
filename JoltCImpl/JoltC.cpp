@@ -25,6 +25,7 @@
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
 #include <Jolt/Physics/Collision/Shape/StaticCompoundShape.h>
 #include <Jolt/Physics/Collision/Shape/TriangleShape.h>
+#include <Jolt/Physics/Collision/Shape/RotatedTranslatedShape.h>
 #include <Jolt/Physics/Collision/ShapeCast.h>
 #include <Jolt/Physics/Collision/SimShapeFilter.h>
 #include <Jolt/Physics/Constraints/ConstraintPart/SwingTwistConstraintPart.h>
@@ -1742,6 +1743,29 @@ JPC_API JPC_Vec3 JPC_Shape_GetCenterOfMass(const JPC_Shape* self) {
 
 JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self) {
 	return to_jph(self)->GetVolume();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// RotatedTranslatedShapeSettings
+
+JPC_API void JPC_RotatedTranslatedShapeSettings_init(JPC_RotatedTranslatedShapeSettings* self, JPC_Vec3 position, JPC_Quat rotation, const JPC_Shape* shape) {
+	JPH::RotatedTranslatedShapeSettings settings = JPH::RotatedTranslatedShapeSettings(to_jph(position), to_jph(rotation), to_jph(shape));
+	self->Position = to_jpc(settings.mPosition);
+	self->Rotation = to_jpc(settings.mRotation);
+	self->InnerShapePtr = to_jpc(settings.mInnerShapePtr.GetPtr());
+}
+
+static void to_jph(const JPC_RotatedTranslatedShapeSettings* in, JPH::RotatedTranslatedShapeSettings* out) {
+	out->mPosition = to_jph(in->Position);
+	out->mRotation = to_jph(in->Rotation);
+	out->mInnerShapePtr = to_jph(in->InnerShapePtr);
+}
+
+JPC_API bool JPC_RotatedTranslatedShapeSettings_Create(const JPC_RotatedTranslatedShapeSettings* self, JPC_Shape** outShape, JPC_String** outError) {
+	JPH::RotatedTranslatedShapeSettings settings;
+	to_jph(self, &settings);
+
+	return HandleShapeResult(settings.Create(), outShape, outError);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

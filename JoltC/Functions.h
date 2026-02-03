@@ -243,6 +243,19 @@ JPC_API JPC_Vec3 JPC_Shape_GetCenterOfMass(const JPC_Shape* self);
 JPC_API float JPC_Shape_GetVolume(const JPC_Shape* self);
 
 ////////////////////////////////////////////////////////////////////////////////
+// RotatedTranslatedShapeSettings
+
+typedef struct JPC_RotatedTranslatedShapeSettings {
+	JPC_Vec3 Position;
+	JPC_Quat Rotation;
+	const JPC_Shape* InnerShapePtr;
+} JPC_RotatedTranslatedShapeSettings;
+
+JPC_API void JPC_RotatedTranslatedShapeSettings_init(JPC_RotatedTranslatedShapeSettings* self, JPC_Vec3 position, JPC_Quat rotation, const JPC_Shape* shape);
+
+JPC_API bool JPC_RotatedTranslatedShapeSettings_Create(const JPC_RotatedTranslatedShapeSettings* self, JPC_Shape** outShape, JPC_String** outError);
+
+////////////////////////////////////////////////////////////////////////////////
 // CompoundShape -> Shape -> RefTarget<Shape>
 
 typedef struct JPC_CompoundShape JPC_CompoundShape;
