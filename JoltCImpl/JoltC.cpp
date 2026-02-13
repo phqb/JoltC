@@ -104,6 +104,7 @@ ENUM_CONVERSION(JPC_ShapeSubType, JPH::EShapeSubType)
 ENUM_CONVERSION(JPC_SpringMode, JPH::ESpringMode)
 ENUM_CONVERSION(JPC_MotorState, JPH::EMotorState)
 ENUM_CONVERSION(JPC_ValidateResult, JPH::ValidateResult)
+ENUM_CONVERSION(JPC_MeshShapeSettings_BuildQuality, JPH::MeshShapeSettings::EBuildQuality);
 
 OPAQUE_WRAPPER(JPC_PhysicsSystem, JPH::PhysicsSystem)
 DESTRUCTOR(JPC_PhysicsSystem)
@@ -1859,6 +1860,10 @@ JPC_IMPL void JPC_MeshShapeSettings_to_jpc_borrowed(
 	outJpc->TriangleVerticesLen = inJph->mTriangleVertices.size();
 	outJpc->IndexedTriangles = (JPC_IndexedTriangle*)inJph->mIndexedTriangles.data();
 	outJpc->IndexedTrianglesLen = inJph->mIndexedTriangles.size();
+	outJpc->MaxTrianglesPerLeaf = inJph->mMaxTrianglesPerLeaf;
+	outJpc->ActiveEdgeCosThresholdAngle = inJph->mActiveEdgeCosThresholdAngle;
+	outJpc->PerTriangleUserData = inJph->mPerTriangleUserData;
+	outJpc->BuildQuality = to_jpc(inJph->mBuildQuality);
 }
 
 JPC_IMPL void JPC_MeshShapeSettings_to_jph(
@@ -1872,6 +1877,11 @@ JPC_IMPL void JPC_MeshShapeSettings_to_jph(
 
 	auto indexedTriangles = (const JPH::IndexedTriangle*)inJpc->IndexedTriangles;
 	outJph->mIndexedTriangles = JPH::IndexedTriangleList(indexedTriangles, indexedTriangles + inJpc->IndexedTrianglesLen);
+
+	outJph->mMaxTrianglesPerLeaf = inJpc->MaxTrianglesPerLeaf;
+	outJph->mActiveEdgeCosThresholdAngle = inJpc->ActiveEdgeCosThresholdAngle;
+	outJph->mPerTriangleUserData = inJpc->PerTriangleUserData;
+	outJph->mBuildQuality = to_jph(inJpc->BuildQuality);
 }
 
 JPC_API void JPC_MeshShapeSettings_default(JPC_MeshShapeSettings* object) {

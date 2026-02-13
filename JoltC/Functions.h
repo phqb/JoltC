@@ -1096,9 +1096,10 @@ typedef struct JPC_MeshShapeSettings {
 	JPC_IndexedTriangle* IndexedTriangles;
 	size_t IndexedTrianglesLen;
 	// PhysicsMaterialList				mMaterials;
-	// uint							mMaxTrianglesPerLeaf = 8;
-	// float							mActiveEdgeCosThresholdAngle = 0.996195f;
-	// bool							mPerTriangleUserData = false;
+	uint MaxTrianglesPerLeaf;
+	float ActiveEdgeCosThresholdAngle;
+	bool PerTriangleUserData;
+	JPC_MeshShapeSettings_BuildQuality BuildQuality;
 } JPC_MeshShapeSettings;
 
 JPC_API void JPC_MeshShapeSettings_default(JPC_MeshShapeSettings* object);
