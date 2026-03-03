@@ -1358,11 +1358,6 @@ JPC_IMPL void JPC_ConstraintSettings_to_jph(
 	outJph->mUserData = inJpc->UserData;
 }
 
-JPC_API void JPC_ConstraintSettings_default(JPC_ConstraintSettings* settings) {
-	JPH::ConstraintSettings defaultSettings{};
-	JPC_ConstraintSettings_to_jpc(settings, &defaultSettings);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // SpringSettings
 

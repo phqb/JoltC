@@ -882,8 +882,6 @@ typedef struct JPC_ConstraintSettings {
 	uint64_t UserData;
 } JPC_ConstraintSettings;
 
-JPC_API void JPC_ConstraintSettings_default(JPC_ConstraintSettings* settings);
-
 ////////////////////////////////////////////////////////////////////////////////
 // SpringSettings
 
